@@ -1,0 +1,7 @@
+GET http://localhost:3003/balances/a0e7206a-9705-4cdb-8ffc-9dbc11fb2e29 HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3003/balances/b42a154f-2569-46d6-b6fc-9bcc963bedc3 HTTP/1.1
+Content-Type: application/json

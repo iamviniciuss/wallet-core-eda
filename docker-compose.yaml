@@ -1,13 +1,31 @@
 version: '3'
 
 services:
-  goapp: 
-    build: .
+  # balanceapi: 
+  #   build:
+  #     context: ./
+  #     dockerfile: ./docker/balance.Dockerfile
+  #   platform: linux/amd64
+  #   volumes:
+  #     - .:/app
+  #   ports:
+  #     - 3003:3003
+  #   depends_on:
+  #     - kafka
+  #   networks:
+  #     - walletcore
+
+  walletcore: 
+    build:
+      context: ./
+      dockerfile: ./docker/walletcore.Dockerfile
     platform: linux/amd64
     volumes:
       - .:/app
     ports:
       - 8080:8080
+    networks:
+      - walletcore
 
   mysql:
     image: mysql:5.7
@@ -20,9 +38,11 @@ services:
       - 3306:3306
     volumes:
       - .docker/mysql:/var/lib/mysql
+    networks:
+      - walletcore
 
   zookeeper:
-    image: "confluentinc/cp-zookeeper:6.1.0"
+    image: "confluentinc/cp-zookeeper:latest"
     container_name: zookeeper
     ports:
       - 2181:2181
@@ -30,9 +50,11 @@ services:
       TZ: Sao_Paulo/Brazil
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - walletcore
 
   kafka:
-    image: "confluentinc/cp-enterprise-kafka:6.1.0"
+    image: "confluentinc/cp-enterprise-kafka:latest"
     container_name: kafka
     depends_on:
       - zookeeper
@@ -54,6 +76,8 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 100
       CONFLUENT_METRICS_ENABLE: 'false'
+    networks:
+      - walletcore
 
   control-center:
     image: confluentinc/cp-enterprise-control-center:7.3.0
@@ -70,4 +94,9 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
+    networks:
+      - walletcore
   
+networks:
+  walletcore:
+    driver: bridge
