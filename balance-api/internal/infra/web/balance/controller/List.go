@@ -3,10 +3,10 @@ package infra
 import (
 	"context"
 
-	errors "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/errors"
-	http "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/http"
-	"github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/usecase/get_balance_by_account_id"
-	"github.com.br/devfullcycle/fc-ms-wallet/balance-api/pkg/uow"
+	errors "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/errors"
+	http "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/http"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/get_balance_by_account_id"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 )
 
 type GetBalanceByIdCtrlOutput struct {

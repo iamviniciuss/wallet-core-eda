@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com.br/devfullcycle/fc-ms-wallet/wallet-core/internal/usecase/create_transaction"
+	"github.com/iamviniciuss/wallet-core-eda/wallet-core/internal/usecase/create_transaction"
 )
 
 type WebTransactionHandler struct {

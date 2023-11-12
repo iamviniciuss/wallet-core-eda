@@ -3,9 +3,9 @@ package get_balance_by_account_id
 import (
 	"context"
 
-	"github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/entity"
-	"github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/gateway"
-	"github.com.br/devfullcycle/fc-ms-wallet/balance-api/pkg/uow"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/entity"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/gateway"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 )
 
 type GetBalanceByIdUseCase struct {

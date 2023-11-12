@@ -3,10 +3,10 @@ package create_transaction
 import (
 	"context"
 
-	"github.com.br/devfullcycle/fc-ms-wallet/wallet-core/internal/entity"
-	"github.com.br/devfullcycle/fc-ms-wallet/wallet-core/internal/gateway"
-	"github.com.br/devfullcycle/fc-ms-wallet/wallet-core/pkg/events"
-	"github.com.br/devfullcycle/fc-ms-wallet/wallet-core/pkg/uow"
+	"github.com/iamviniciuss/wallet-core-eda/wallet-core/internal/entity"
+	"github.com/iamviniciuss/wallet-core-eda/wallet-core/internal/gateway"
+	"github.com/iamviniciuss/wallet-core-eda/wallet-core/pkg/events"
+	"github.com/iamviniciuss/wallet-core-eda/wallet-core/pkg/uow"
 )
 
 type CreateTransactionInputDTO struct {

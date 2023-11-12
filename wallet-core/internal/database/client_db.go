@@ -3,7 +3,7 @@ package database
 import (
 	"database/sql"
 
-	"github.com.br/devfullcycle/fc-ms-wallet/wallet-core/internal/entity"
+	"github.com/iamviniciuss/wallet-core-eda/wallet-core/internal/entity"
 )
 
 type ClientDB struct {

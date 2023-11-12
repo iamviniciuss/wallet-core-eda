@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/usecase/create_transaction"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/create_transaction"
 
 	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 )

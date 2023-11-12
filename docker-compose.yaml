@@ -1,27 +1,59 @@
 version: '3'
 
 services:
-  # balanceapi: 
-  #   build:
-  #     context: ./
-  #     dockerfile: ./docker/balance.Dockerfile
-  #   platform: linux/amd64
-  #   volumes:
-  #     - .:/app
-  #   ports:
-  #     - 3003:3003
-  #   depends_on:
-  #     - kafka
-  #   networks:
-  #     - walletcore
+  balanceapi: 
+    build:
+      context: ./
+      dockerfile: ./docker/balance.Dockerfile
+    platform: linux/amd64
+    volumes:
+      - .:/app
+    ports:
+      - 3003:3003
+    environment:
+      - KAFKA_URL=kafka:29092
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE_BALANCE=balance
+      - MIGRATION_USERNAME=root
+      - MIGRATION_PASSWORD=root
+      - MIGRATION_HOSTNAME=mysql
+      - MIGRATION_PORT=3306
+      - MIGRATION_DB=wallet
+      - MIGRATION_TABLE=migrations
+    depends_on:
+      # - kafka
+      mysql: 
+        condition: service_healthy
+    networks:
+      - walletcore
 
   walletcore: 
     build:
       context: ./
       dockerfile: ./docker/walletcore.Dockerfile
     platform: linux/amd64
+    environment:
+      - KAFKA_URL=kafka:29092
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=wallet
+      - MIGRATION_USERNAME=root
+      - MIGRATION_PASSWORD=root
+      - MIGRATION_HOSTNAME=mysql
+      - MIGRATION_PORT=3306
+      - MIGRATION_DB=wallet
+      - MIGRATION_TABLE=migrations
     volumes:
       - .:/app
+    depends_on:
+      # - kafka
+      mysql: 
+        condition: service_healthy
     ports:
       - 8080:8080
     networks:
@@ -37,9 +69,14 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - .docker/mysql:/var/lib/mysql
+      - .docker/mysql2:/var/lib/mysql
     networks:
       - walletcore
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    
 
   zookeeper:
     image: "confluentinc/cp-zookeeper:latest"

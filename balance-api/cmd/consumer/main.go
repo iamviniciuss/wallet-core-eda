@@ -6,16 +6,16 @@ import (
 	"fmt"
 	"os"
 
-	// httpService "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/http"
-	// balance "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/web/balance"
-	// healthcheck "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/web/healthcheck"
-	infra "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/worker"
-	"github.com.br/devfullcycle/fc-ms-wallet/balance-api/pkg/uow"
+	// httpService "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/http"
+	// balance "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/web/balance"
+	// healthcheck "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/web/healthcheck"
 	_ "github.com/go-sql-driver/mysql"
+	infra "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/worker"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 
-	"github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/database"
-	"github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/usecase/create_transaction"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/database"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/create_transaction"
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 	MYSQL_PASSWORD := os.Getenv("MYSQL_PASSWORD")
 	MYSQL_HOST := os.Getenv("MYSQL_HOST")
 	MYSQL_PORT := os.Getenv("MYSQL_PORT")
-	MYSQL_DATABASE := os.Getenv("MYSQL_DATABASE")
+	MYSQL_DATABASE := os.Getenv("MYSQL_DATABASE_BALANCE")
 
 	mysqlhost := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT, MYSQL_DATABASE)
 

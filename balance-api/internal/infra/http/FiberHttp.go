@@ -1,9 +1,9 @@
 package infra
 
 import (
-	infra "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	infra "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/errors"
 	"github.com/valyala/fasthttp"
 )
 

@@ -1,8 +1,8 @@
 package infra
 
 import (
-	infra "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/http"
-	healthCheckCtrl "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/web/healthcheck/controller"
+	infra "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/http"
+	healthCheckCtrl "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/web/healthcheck/controller"
 )
 
 func HealthCheckRouter(http infra.HttpService) {

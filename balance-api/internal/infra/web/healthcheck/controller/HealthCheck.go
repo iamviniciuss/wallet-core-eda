@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	errors "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/errors"
-	http "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/http"
+	errors "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/errors"
+	http "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/http"
 )
 
 type AWSSecret struct {

@@ -1,6 +1,6 @@
 package infra
 
-import infra "github.com.br/devfullcycle/fc-ms-wallet/balance-api/internal/infra/errors"
+import infra "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/errors"
 
 type HttpService interface {
 	Get(path string, callback func(map[string]string, []byte, QueryParams) (interface{}, *infra.IntegrationError))
