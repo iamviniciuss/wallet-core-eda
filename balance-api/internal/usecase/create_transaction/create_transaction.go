@@ -2,6 +2,7 @@ package create_transaction
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/entity"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/gateway"
@@ -58,7 +59,14 @@ func (uc *CreateTransactionUseCase) Execute(ctx context.Context, input BalanceUp
 		}
 
 		accountFrom, err := uc.UpsertAccount(ctx, accountFrom)
+		if err != nil {
+			return err
+		}
+
 		accountTo, err = uc.UpsertAccount(ctx, accountTo)
+		if err != nil {
+			return err
+		}
 
 		err = accountRepository.UpdateBalance(accountFrom)
 		if err != nil {
@@ -70,6 +78,7 @@ func (uc *CreateTransactionUseCase) Execute(ctx context.Context, input BalanceUp
 	})
 
 	if err != nil {
+		fmt.Println(err.Error())
 		return nil, err
 	}
 
@@ -89,7 +98,9 @@ func (uc *CreateTransactionUseCase) UpsertAccount(ctx context.Context, account *
 		}
 	}
 
-	return accountFrom, nil
+	accountFrom, err = accountRepository.FindByID(account.ID)
+
+	return accountFrom, err
 }
 
 func (uc *CreateTransactionUseCase) getAccountRepository(ctx context.Context) gateway.AccountGateway {

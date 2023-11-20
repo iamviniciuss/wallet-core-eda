@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 	pkg "github.com/iamviniciuss/golang-migrations/src/pkg"
@@ -22,17 +23,24 @@ import (
 func main() {
 	log.Println("The seeds execution has been started.")
 
-	mysql_connection, err := repository.NewConnection()
+	mysql_migrations_connection, err := repository.NewConnection()
 
 	if err != nil {
 		panic(err)
 	}
 
+	CreateDatabaseIfNotExists(mysql_migrations_connection)
+	defer mysql_migrations_connection.Close()
+
+	migrationRepo := repository.NewMigrationRepositoryMySQL(mysql_migrations_connection)
+	migrationRepo.CreateCollectionIfNotExists("migrations")
+
+	mysql_connection, err := NewConnection()
+	if err != nil {
+		panic(err)
+	}
 	defer mysql_connection.Close()
 
-	migrationRepo := repository.NewMigrationRepositoryMySQL(mysql_connection)
-	CreateDatabaseIfNotExists(mysql_connection)
-	migrationRepo.CreateCollectionIfNotExists("migrations")
 	CreateClientsCollectionIfNotExists(mysql_connection)
 	CreateAccountsCollectionIfNotExists(mysql_connection)
 	CreateTransactionsCollectionIfNotExists(mysql_connection)
@@ -78,7 +86,7 @@ func main() {
 func CreateClientsCollectionIfNotExists(mysqlDb *sql.DB) error {
 
 	createTableQuery := fmt.Sprintf(`
-	CREATE TABLE clients (
+	CREATE TABLE wallet.clients (
 		id varchar(45) NOT NULL,
 		name varchar(45) DEFAULT NULL,
 		email varchar(45) DEFAULT NULL,
@@ -98,7 +106,7 @@ func CreateClientsCollectionIfNotExists(mysqlDb *sql.DB) error {
 func CreateAccountsCollectionIfNotExists(mysqlDb *sql.DB) error {
 
 	createTableQuery := fmt.Sprintf(`
-	CREATE TABLE accounts (
+	CREATE TABLE wallet.accounts (
 		id varchar(45) NOT NULL,
 		client_id varchar(45) DEFAULT NULL,
 		balance float DEFAULT NULL,
@@ -117,7 +125,7 @@ func CreateAccountsCollectionIfNotExists(mysqlDb *sql.DB) error {
 func CreateTransactionsCollectionIfNotExists(mysqlDb *sql.DB) error {
 
 	createTableQuery := fmt.Sprintf(`
-	CREATE TABLE transactions (
+	CREATE TABLE wallet.transactions (
 		id varchar(45) NOT NULL,
 		created_at datetime DEFAULT NULL,
 		account_id_from varchar(45) DEFAULT NULL,
@@ -135,13 +143,44 @@ func CreateTransactionsCollectionIfNotExists(mysqlDb *sql.DB) error {
 }
 
 func CreateDatabaseIfNotExists(mysqlDb *sql.DB) error {
-
-	createTableQuery := fmt.Sprintf(`CREATE DATABASE IF NOT EXISTS wallet;`)
+	createTableQuery := fmt.Sprintf(`CREATE SCHEMA wallet DEFAULT CHARACTER SET utf8;`)
 	_, err := mysqlDb.Exec(createTableQuery)
 	if err != nil {
-		fmt.Println("Não criou o banco de dados", err.Error())
+		fmt.Println("not created the WALLET database", err.Error())
 		return err
 	}
 
+	fmt.Println("created the WALLET database")
+
+	_, err2 := mysqlDb.Exec("USE wallet;")
+	if err2 != nil {
+		fmt.Println("error connecting to 'wallet' database:", err2.Error())
+		return err2
+	}
+
 	return nil
+}
+
+var (
+	username = os.Getenv("MYSQL_USER")
+	password = os.Getenv("MYSQL_PASSWORD")
+	hostname = os.Getenv("MYSQL_HOST")
+	port     = os.Getenv("MYSQL_PORT")
+	dbName   = os.Getenv("MYSQL_DATABASE")
+)
+
+func NewConnection() (*sql.DB, error) {
+	dbPort, err := strconv.Atoi(port)
+
+	if err != nil {
+		fmt.Println("Error converting string to an integer:", err)
+		return nil, err
+	}
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, hostname, dbPort, dbName)
+	db, err := sql.Open("mysql", dsn)
+	if err != nil {
+		return nil, err
+	}
+	return db, nil
 }

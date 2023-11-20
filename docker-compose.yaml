@@ -21,8 +21,8 @@ services:
       - MIGRATION_PASSWORD=root
       - MIGRATION_HOSTNAME=mysql
       - MIGRATION_PORT=3306
-      - MIGRATION_DB=wallet
-      - MIGRATION_TABLE=migrations
+      - MIGRATION_DB=mysql_wallet
+      - MIGRATION_TABLE=mysql_wallet
     depends_on:
       # - kafka
       mysql: 
@@ -46,12 +46,13 @@ services:
       - MIGRATION_PASSWORD=root
       - MIGRATION_HOSTNAME=mysql
       - MIGRATION_PORT=3306
-      - MIGRATION_DB=wallet
-      - MIGRATION_TABLE=migrations
+      - MIGRATION_DB=mysql_wallet
+      - MIGRATION_TABLE=mysql_wallet
     volumes:
       - .:/app
     depends_on:
-      # - kafka
+      # kafka: 
+      #   condition: service_healthy
       mysql: 
         condition: service_healthy
     ports:
@@ -64,12 +65,12 @@ services:
     platform: linux/amd64
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: wallet
+      MYSQL_DATABASE: mysql_wallet
       MYSQL_PASSWORD: root
     ports:
       - 3306:3306
     volumes:
-      - .docker/mysql2:/var/lib/mysql
+      - .docker/mysql6:/var/lib/mysql
     networks:
       - walletcore
     healthcheck:
