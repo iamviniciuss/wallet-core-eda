@@ -12,8 +12,8 @@ COPY . .
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-RUN CGO_ENABLED=1 GOOS=linux go build -tags dynamic -o walletcore_app ./wallet-core/cmd/walletcore
-RUN CGO_ENABLED=1 GOOS=linux go build -o walletcore_scripts ./wallet-core/scripts/database
+RUN go build -tags dynamic -o walletcore_app ./wallet-core/cmd/walletcore
+RUN go build -o walletcore_scripts ./wallet-core/scripts/database
 
 EXPOSE 8080
 

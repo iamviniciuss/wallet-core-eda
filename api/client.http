@@ -5,7 +5,7 @@ Content-Type: application/json
 {
     "account_id_from": "54964f6c-01f3-4207-85c6-4722022adf95",
     "account_id_to": "54964f6c-01f3-4207-85c6-8245b8467f2b",
-    "amount": 1
+    "amount": 2
 }
 
 
@@ -16,7 +16,6 @@ Content-Type: application/json
 
 POST http://localhost:8080/clients HTTP/1.1
 Content-Type: application/json
-
 {
     "name": "John Doe",
     "email": "john@j.com"

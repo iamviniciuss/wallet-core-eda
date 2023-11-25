@@ -5,26 +5,28 @@ services:
     build:
       context: ./
       dockerfile: ./docker/balance.Dockerfile
-    platform: linux/amd64
+    #platform: linux/amd64
     volumes:
       - .:/app
     ports:
       - 3003:3003
     environment:
       - KAFKA_URL=kafka:29092
+
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
+      - MYSQL_DATABASE=wallet
       - MYSQL_DATABASE_BALANCE=balance
+
       - MIGRATION_USERNAME=root
       - MIGRATION_PASSWORD=root
       - MIGRATION_HOSTNAME=mysql
       - MIGRATION_PORT=3306
       - MIGRATION_DB=mysql_wallet
-      - MIGRATION_TABLE=mysql_wallet
+      - MIGRATION_TABLE=migrations
     depends_on:
-      # - kafka
       mysql: 
         condition: service_healthy
     networks:
@@ -37,17 +39,20 @@ services:
     platform: linux/amd64
     environment:
       - KAFKA_URL=kafka:29092
+
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
       - MYSQL_DATABASE=wallet
+      - MYSQL_DATABASE_BALANCE=balance
+
       - MIGRATION_USERNAME=root
       - MIGRATION_PASSWORD=root
       - MIGRATION_HOSTNAME=mysql
       - MIGRATION_PORT=3306
       - MIGRATION_DB=mysql_wallet
-      - MIGRATION_TABLE=mysql_wallet
+      - MIGRATION_TABLE=migrations
     volumes:
       - .:/app
     depends_on:
@@ -70,7 +75,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - .docker/mysql6:/var/lib/mysql
+      - .docker/mysql8:/var/lib/mysql
     networks:
       - walletcore
     healthcheck:
@@ -117,23 +122,23 @@ services:
     networks:
       - walletcore
 
-  control-center:
-    image: confluentinc/cp-enterprise-control-center:7.3.0
-    hostname: control-center
-    container_name: control-center
-    depends_on:
-      - kafka
-    ports:
-      - "9021:9021"
-    environment:
-      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'kafka:29092'
-      CONTROL_CENTER_REPLICATION_FACTOR: 1
-      CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
-      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
-      CONFLUENT_METRICS_TOPIC_REPLICATION: 1
-      PORT: 9021
-    networks:
-      - walletcore
+  # control-center:
+  #   image: confluentinc/cp-enterprise-control-center:7.3.0
+  #   hostname: control-center
+  #   container_name: control-center
+  #   depends_on:
+  #     - kafka
+  #   ports:
+  #     - "9021:9021"
+  #   environment:
+  #     CONTROL_CENTER_BOOTSTRAP_SERVERS: 'kafka:29092'
+  #     CONTROL_CENTER_REPLICATION_FACTOR: 1
+  #     CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
+  #     CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
+  #     CONFLUENT_METRICS_TOPIC_REPLICATION: 1
+  #     PORT: 9021
+  #   networks:
+  #     - walletcore
   
 networks:
   walletcore:

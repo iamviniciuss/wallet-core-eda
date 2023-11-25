@@ -11,10 +11,8 @@ require (
 	github.com/google/uuid v1.3.1
 	github.com/iamviniciuss/golang-migrations v1.1.2
 	github.com/mattn/go-sqlite3 v1.14.16
-	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.8.2
 	github.com/valyala/fasthttp v1.50.0
-	go.mongodb.org/mongo-driver v1.7.5
 )
 
 require (
@@ -29,6 +27,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
@@ -39,6 +38,7 @@ require (
 	github.com/xdg-go/scram v1.1.1 // indirect
 	github.com/xdg-go/stringprep v1.0.3 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d // indirect
+	go.mongodb.org/mongo-driver v1.7.5 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	golang.org/x/crypto v0.7.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect

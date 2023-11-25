@@ -1,3 +1,3 @@
 #!/bin/bash
-./balanceapi_scripts
-./balanceapi
+/workspace/balanceapi_scripts
+/workspace/balanceapi
