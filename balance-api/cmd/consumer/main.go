@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"net/http"
 	"os"
 
 	// httpService "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/http"
@@ -48,16 +49,14 @@ func main() {
 
 	createTransactionUseCase := create_transaction.NewCreateTransactionUseCase(uow)
 
-	infra.QueueRunner(infra.QueueRunnerInput{
+	go infra.QueueRunner(infra.QueueRunnerInput{
 		CreateTransactionUseCase: createTransactionUseCase,
 	})
 
-	// http := httpService.NewFiberHttp()
-	// healthcheck.HealthCheckRouter(http)
-	// balance.BalanceRouter(http, uow)
+	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "OK")
+	})
 
-	// err = http.ListenAndServe(":3003")
-	// if err != nil {
-	// 	panic(err)
-	// }
+	http.ListenAndServe(":3003", nil)
 }

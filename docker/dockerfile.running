@@ -1,0 +1,55 @@
+FROM alpine:latest AS builder
+
+ENV GOPATH /go
+
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+
+RUN apk --no-cache add musl musl-dev musl-utils
+RUN apk --no-cache add build-base
+
+RUN apk --no-cache add \
+    bash \
+    ca-certificates \
+    git \
+    gcc \
+    musl-dev \
+    librdkafka-dev 
+
+
+RUN apk --no-cache add go
+
+WORKDIR $GOPATH
+
+RUN go version
+
+
+WORKDIR /build
+
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+
+COPY docker/entrypoint-ba.sh ./entrypoint-ba.sh
+RUN chmod +x ./entrypoint-ba.sh
+
+RUN CGO_ENABLED=1 GOOS=linux go build -tags dynamic -o apptestbuild ./apptest
+RUN CGO_ENABLED=1 GOOS=linux go build -o balanceapi_scripts ./balance-api/scripts/database
+
+FROM alpine:latest 
+
+WORKDIR /app
+
+# Copie apenas os artefatos necessários do estágio de compilação
+# COPY --from=builder /build/entrypoint-ba.sh entrypoint-ba.sh
+# COPY --from=builder /build/balanceapi balanceapi
+COPY --from=builder /build/balanceapi_scripts balanceapi_scripts
+COPY --from=builder /build/apptestbuild apptestbuild
+
+# RUN chmod +x /app/entrypoint-ba.sh
+RUN chmod +x /app/balanceapi_scripts
+RUN chmod +x /app/apptestbuild
+
+# RUN chmod +x /app/entrypoint-ba.sh
+# ENTRYPOINT ["/app/entrypoint-ba.sh"]

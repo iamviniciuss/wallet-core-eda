@@ -58,12 +58,12 @@ func (uc *CreateTransactionUseCase) Execute(ctx context.Context, input BalanceUp
 			Balance: input.BalanceAccountIDTo,
 		}
 
-		accountFrom, err := uc.UpsertAccount(ctx, accountFrom)
+		_, err := uc.UpsertAccount(ctx, accountFrom)
 		if err != nil {
 			return err
 		}
 
-		accountTo, err = uc.UpsertAccount(ctx, accountTo)
+		_, err = uc.UpsertAccount(ctx, accountTo)
 		if err != nil {
 			return err
 		}
@@ -74,6 +74,7 @@ func (uc *CreateTransactionUseCase) Execute(ctx context.Context, input BalanceUp
 		}
 
 		err = accountRepository.UpdateBalance(accountTo)
+		fmt.Println("Chegou ao final")
 		return err
 	})
 

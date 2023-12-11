@@ -100,10 +100,6 @@ github.com/hashicorp/errwrap v1.1.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brv
 github.com/hashicorp/go-multierror v1.1.1 h1:H5DkEtf6CXdFp0N0Em5UCwQpXMWke8IA0+lD48awMYo=
 github.com/hashicorp/go-multierror v1.1.1/go.mod h1:iw975J/qwKPdAO1clOe2L8331t/9/fmwbPZ6JB6eMoM=
 github.com/heetch/avro v0.3.1/go.mod h1:4xn38Oz/+hiEUTpbVfGVLfvOg0yKLlRP7Q9+gJJILgA=
-github.com/iamviniciuss/golang-migrations v1.1.0 h1:G9dypZMJv70maaZ/tbOUaNq3njYMWPbamkFSZPE63XI=
-github.com/iamviniciuss/golang-migrations v1.1.0/go.mod h1:/k2rGeTAXZStSxsC8d81It3iWQ4vMGfj3eWhrjqnC3c=
-github.com/iamviniciuss/golang-migrations v1.1.1 h1:kbL/HRZPACXhFsiwaeWhaVjV8+Qe7UJFL+DiREcZEAM=
-github.com/iamviniciuss/golang-migrations v1.1.1/go.mod h1:/k2rGeTAXZStSxsC8d81It3iWQ4vMGfj3eWhrjqnC3c=
 github.com/iamviniciuss/golang-migrations v1.1.2 h1:xskOC+AAB5OQtL4x07yaQDYrGH8OXwA5KwhmaZEsUjs=
 github.com/iamviniciuss/golang-migrations v1.1.2/go.mod h1:/k2rGeTAXZStSxsC8d81It3iWQ4vMGfj3eWhrjqnC3c=
 github.com/iancoleman/orderedmap v0.0.0-20190318233801-ac98e3ecb4b0/go.mod h1:N0Wam8K1arqPXNWjMo21EXnBPOPp36vB07FNRdD2geA=

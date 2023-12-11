@@ -28,7 +28,7 @@ type ConsumeTopic struct {
 
 func NewSQSMessageBroker(createTransactionUseCase *create_transaction.CreateTransactionUseCase) *KafkaAdapter {
 	KAFKA_URL := os.Getenv("KAFKA_URL")
-
+	fmt.Println("KAFKA_URL", KAFKA_URL)
 	configMap := ckafka.ConfigMap{
 		"bootstrap.servers":   KAFKA_URL,
 		"group.id":            "wallet",

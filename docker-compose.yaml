@@ -29,6 +29,8 @@ services:
     depends_on:
       mysql: 
         condition: service_healthy
+      walletcore: 
+        condition: service_healthy
     networks:
       - walletcore
 
@@ -64,6 +66,11 @@ services:
       - 8080:8080
     networks:
       - walletcore
+    healthcheck:
+      test: ["CMD", "curl", "-f", "--request", "POST", "http://localhost:8080/health"]
+      interval: 3s
+      timeout: 40s
+      retries: 10
 
   mysql:
     image: mysql:5.7
@@ -75,7 +82,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - .docker/mysql8:/var/lib/mysql
+      - .docker/mysql9:/var/lib/mysql
     networks:
       - walletcore
     healthcheck:
@@ -93,6 +100,11 @@ services:
       TZ: Sao_Paulo/Brazil
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    healthcheck:
+      test: ["CMD", "echo", "mntr | nc 127.0.0.1 2181 | grep -q 'zk_server_state=leader'"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     networks:
       - walletcore
 
@@ -100,7 +112,9 @@ services:
     image: "confluentinc/cp-enterprise-kafka:latest"
     container_name: kafka
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
+
     ports:
     # Exposes 9092 for external connections to the broker
     # Use kafka:29092 for connections internal on the docker network
