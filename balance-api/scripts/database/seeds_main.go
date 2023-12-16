@@ -13,6 +13,7 @@ import (
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/database"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/create_transaction"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/scripts/database/seeds"
 )
 
 func main() {
@@ -30,6 +31,17 @@ func main() {
 	migrationRepo := repository.NewMigrationRepositoryMySQL(mysql_migrations_connection)
 	migrationRepo.CreateCollectionIfNotExists("migrations")
 
+	ctx := context.Background()
+	uow := uow.NewUow(ctx, mysql_migrations_connection)
+
+	uow.Register("AccountDB", func(tx *sql.Tx) interface{} {
+		return database.NewAccountDB(mysql_migrations_connection)
+	})
+
+	uow.Register("TransactionDB", func(tx *sql.Tx) interface{} {
+		return database.NewTransactionDB(mysql_migrations_connection)
+	})
+
 	mysql_connection, err := NewConnection()
 	if err != nil {
 		panic(err)
@@ -38,17 +50,7 @@ func main() {
 
 	CreateAccountsCollectionIfNotExists(mysql_connection)
 
-	myuow := uow.NewUow(context.TODO(), mysql_connection)
-
-	myuow.Register("AccountDB", func(tx *sql.Tx) interface{} {
-		return database.NewAccountDB(mysql_connection)
-	})
-
-	myuow.Register("TransactionDB", func(tx *sql.Tx) interface{} {
-		return database.NewTransactionDB(mysql_connection)
-	})
-
-	useCase := create_transaction.NewCreateTransactionUseCase(myuow)
+	useCase := create_transaction.NewCreateTransactionUseCase(uow)
 	_, err1 := useCase.Execute(context.TODO(), create_transaction.BalanceUpdatedOutputDTO{
 		AccountIDFrom:        "d5a35295-4e15-4a15-99c1-8245b8467a8c",
 		AccountIDTo:          "d5a76543-4e15-4a15-99c1-8245b8467v6a",
@@ -59,6 +61,8 @@ func main() {
 	if err1 != nil {
 		fmt.Println("NewCreateTransactionUseCase", err1.Error())
 	}
+
+	seeds.NewStartAccounts(uow, mysql_migrations_connection).Up()
 
 	log.Println("The seeds execution has been successfully completed.")
 }
