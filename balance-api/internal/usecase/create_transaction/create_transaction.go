@@ -74,7 +74,6 @@ func (uc *CreateTransactionUseCase) Execute(ctx context.Context, input BalanceUp
 		}
 
 		err = accountRepository.UpdateBalance(accountTo)
-		fmt.Println("Chegou ao final")
 		return err
 	})
 

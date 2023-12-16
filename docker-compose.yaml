@@ -58,8 +58,6 @@ services:
     volumes:
       - .:/app
     depends_on:
-      # kafka: 
-      #   condition: service_healthy
       mysql: 
         condition: service_healthy
     ports:
@@ -81,8 +79,8 @@ services:
       MYSQL_PASSWORD: root
     ports:
       - 3306:3306
-    volumes:
-      - .docker/mysql9:/var/lib/mysql
+    # volumes:
+    #   - .docker/mysql90:/var/lib/mysql
     networks:
       - walletcore
     healthcheck:

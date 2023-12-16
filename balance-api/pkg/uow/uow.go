@@ -52,11 +52,12 @@ func (u *Uow) GetRepository(ctx context.Context, name string) (interface{}, erro
 }
 
 func (u *Uow) Do(ctx context.Context, fn func(Uow *Uow) error) error {
-	if u.Tx != nil {
-		return fmt.Errorf("transaction already started")
-	}
+	// if u.Tx != nil {
+	// 	return fmt.Errorf("transaction already started")
+	// }
 	tx, err := u.Db.BeginTx(ctx, nil)
 	if err != nil {
+		u.Tx = nil
 		return err
 	}
 	u.Tx = tx
@@ -64,8 +65,10 @@ func (u *Uow) Do(ctx context.Context, fn func(Uow *Uow) error) error {
 	if err != nil {
 		errRb := u.Rollback()
 		if errRb != nil {
+			u.Tx = nil
 			return errors.New(fmt.Sprintf("original error: %s, rollback error: %s", err.Error(), errRb.Error()))
 		}
+		u.Tx = nil
 		return err
 	}
 	return u.CommitOrRollback()
@@ -77,6 +80,7 @@ func (u *Uow) Rollback() error {
 	}
 	err := u.Tx.Rollback()
 	if err != nil {
+		u.Tx = nil
 		return err
 	}
 	u.Tx = nil
@@ -88,8 +92,10 @@ func (u *Uow) CommitOrRollback() error {
 	if err != nil {
 		errRb := u.Rollback()
 		if errRb != nil {
+			u.Tx = nil
 			return errors.New(fmt.Sprintf("original error: %s, rollback error: %s", err.Error(), errRb.Error()))
 		}
+		u.Tx = nil
 		return err
 	}
 	u.Tx = nil

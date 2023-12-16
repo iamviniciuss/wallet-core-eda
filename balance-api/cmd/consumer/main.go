@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 
 	// httpService "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/http"
 	// balance "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/web/balance"
@@ -17,6 +18,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/database"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/create_transaction"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/get_balance_by_account_id"
 )
 
 func main() {
@@ -56,6 +58,32 @@ func main() {
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "OK")
+	})
+
+	http.HandleFunc("/balance/", func(w http.ResponseWriter, r *http.Request) {
+		// accountId := "54964f6c-01f3-4207-85c6-4722022adf95"
+		path := r.URL.Path
+
+		parts := strings.Split(path, "/")
+
+		if len(parts) < 3 {
+			http.Error(w, "URL inválida", http.StatusBadRequest)
+			return
+		}
+
+		accountId := parts[2]
+
+		balanceValue, err := get_balance_by_account_id.NewGetBalanceByIdUseCase(uow).Execute(context.Background(), accountId)
+
+		if err != nil {
+			w.WriteHeader(http.StatusPreconditionFailed)
+			fmt.Fprintf(w, "OK")
+			return
+		}
+
+		balanceValueAsString := fmt.Sprintf("%f", balanceValue)
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, balanceValueAsString)
 	})
 
 	http.ListenAndServe(":3003", nil)

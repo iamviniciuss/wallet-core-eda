@@ -34,6 +34,6 @@ func (ctrl *GetBalanceByIdCtrl) Execute(params map[string]string, body []byte, q
 	}
 
 	return &GetBalanceByIdCtrlOutput{
-		Balance: output.Balance,
+		Balance: output,
 	}, nil
 }
