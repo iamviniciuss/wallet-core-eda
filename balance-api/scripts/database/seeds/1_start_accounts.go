@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/database"
+	gateway "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/gateway"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/entity"
-	gateway "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/gateway"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/database"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 )
 

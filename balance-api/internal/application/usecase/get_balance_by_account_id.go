@@ -1,9 +1,9 @@
-package get_balance_by_account_id
+package usecase
 
 import (
 	"context"
 
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/gateway"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/gateway"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 )
 

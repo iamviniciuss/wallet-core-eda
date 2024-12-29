@@ -1,4 +1,4 @@
-package infra
+package broker
 
 type Message struct {
 	Body          string `json:"body"`

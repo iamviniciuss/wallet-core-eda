@@ -1,12 +1,12 @@
 package worker
 
 import (
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/usecase"
 	queue "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/broker"
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/create_transaction"
 )
 
 type QueueRunnerInput struct {
-	CreateTransactionUseCase *create_transaction.CreateTransactionUseCase
+	CreateTransactionUseCase *usecase.CreateTransactionUseCase
 }
 
 func QueueRunner(input QueueRunnerInput) {

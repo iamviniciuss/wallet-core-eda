@@ -1,4 +1,4 @@
-package infra
+package broker
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/create_transaction"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/usecase"
 
 	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 )
@@ -17,8 +17,8 @@ type KafkaAdapter struct {
 }
 
 type TransactionMessage struct {
-	Name    string                                     `json:"Name"`
-	Payload create_transaction.BalanceUpdatedOutputDTO `json:"Payload"`
+	Name    string                          `json:"Name"`
+	Payload usecase.BalanceUpdatedOutputDTO `json:"Payload"`
 }
 
 type ConsumeTopic struct {
@@ -26,7 +26,7 @@ type ConsumeTopic struct {
 	Handler   func(message ckafka.Message) error
 }
 
-func NewSQSMessageBroker(createTransactionUseCase *create_transaction.CreateTransactionUseCase) *KafkaAdapter {
+func NewSQSMessageBroker(createTransactionUseCase *usecase.CreateTransactionUseCase) *KafkaAdapter {
 	KAFKA_URL := os.Getenv("KAFKA_URL")
 	fmt.Println("KAFKA_URL", KAFKA_URL)
 	configMap := ckafka.ConfigMap{
@@ -58,7 +58,7 @@ func NewSQSMessageBroker(createTransactionUseCase *create_transaction.CreateTran
 				fmt.Println(dto.Payload.BalanceAccountIDTo)
 				ctx := context.Background()
 
-				_, err = createTransactionUseCase.Execute(ctx, create_transaction.BalanceUpdatedOutputDTO{
+				_, err = createTransactionUseCase.Execute(ctx, usecase.BalanceUpdatedOutputDTO{
 					AccountIDFrom:        dto.Payload.AccountIDFrom,
 					BalanceAccountIDFrom: dto.Payload.BalanceAccountIDFrom,
 					AccountIDTo:          dto.Payload.AccountIDTo,

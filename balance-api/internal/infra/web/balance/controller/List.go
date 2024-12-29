@@ -3,9 +3,9 @@ package infra
 import (
 	"context"
 
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/usecase"
 	errors "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/errors"
 	http "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/http"
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/get_balance_by_account_id"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 )
 
@@ -24,7 +24,7 @@ func NewGetBalanceByIdCtrl(Uow uow.UowInterface) *GetBalanceByIdCtrl {
 func (ctrl *GetBalanceByIdCtrl) Execute(params map[string]string, body []byte, queryArgs http.QueryParams) (interface{}, *errors.IntegrationError) {
 	ctx := context.Background()
 
-	output, err := get_balance_by_account_id.NewGetBalanceByIdUseCase(ctrl.Uow).Execute(ctx, string(params["account_id"]))
+	output, err := usecase.NewGetBalanceByIdUseCase(ctrl.Uow).Execute(ctx, string(params["account_id"]))
 
 	if err != nil {
 		return nil, &errors.IntegrationError{

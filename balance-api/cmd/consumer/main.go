@@ -16,9 +16,8 @@ import (
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/database"
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/create_transaction"
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/get_balance_by_account_id"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/usecase"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/database"
 )
 
 func main() {
@@ -49,7 +48,7 @@ func main() {
 		return database.NewTransactionDB(db)
 	})
 
-	createTransactionUseCase := create_transaction.NewCreateTransactionUseCase(uow)
+	createTransactionUseCase := usecase.NewCreateTransactionUseCase(uow)
 
 	go infra.QueueRunner(infra.QueueRunnerInput{
 		CreateTransactionUseCase: createTransactionUseCase,
@@ -73,7 +72,7 @@ func main() {
 
 		accountId := parts[2]
 
-		balanceValue, err := get_balance_by_account_id.NewGetBalanceByIdUseCase(uow).Execute(context.Background(), accountId)
+		balanceValue, err := usecase.NewGetBalanceByIdUseCase(uow).Execute(context.Background(), accountId)
 
 		if err != nil {
 			w.WriteHeader(http.StatusPreconditionFailed)

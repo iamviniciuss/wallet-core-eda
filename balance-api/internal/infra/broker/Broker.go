@@ -1,4 +1,4 @@
-package infra
+package broker
 
 type Broker struct {
 	queue QueueAdapter

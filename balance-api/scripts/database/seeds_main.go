@@ -10,8 +10,8 @@ import (
 	"strconv"
 
 	"github.com/iamviniciuss/golang-migrations/src/repository"
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/database"
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/usecase/create_transaction"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/usecase"
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/database"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/scripts/database/seeds"
 )
@@ -50,8 +50,8 @@ func main() {
 
 	CreateAccountsCollectionIfNotExists(mysql_connection)
 
-	useCase := create_transaction.NewCreateTransactionUseCase(uow)
-	_, err1 := useCase.Execute(context.TODO(), create_transaction.BalanceUpdatedOutputDTO{
+	useCase := usecase.NewCreateTransactionUseCase(uow)
+	_, err1 := useCase.Execute(context.TODO(), usecase.BalanceUpdatedOutputDTO{
 		AccountIDFrom:        "d5a35295-4e15-4a15-99c1-8245b8467a8c",
 		AccountIDTo:          "d5a76543-4e15-4a15-99c1-8245b8467v6a",
 		BalanceAccountIDFrom: 900,

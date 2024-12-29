@@ -43,7 +43,7 @@ POST http://localhost:8080/accounts HTTP/1.1
 Content-Type: application/json
 
 {
-    "client_id": "58fcf3ee-fb01-40e5-827f-4c470459d51b"
+    "client_id": "db2079a6-fb6e-4866-9556-e0a7b26c74b2"
 }
 
 ###

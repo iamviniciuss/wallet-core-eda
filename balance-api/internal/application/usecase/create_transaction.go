@@ -1,11 +1,11 @@
-package create_transaction
+package usecase
 
 import (
 	"context"
 	"fmt"
 
+	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/gateway"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/entity"
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/gateway"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 )
 
@@ -45,7 +45,6 @@ func (uc *CreateTransactionUseCase) Execute(ctx context.Context, input BalanceUp
 	output := &CreateTransactionOutputDTO{}
 
 	err := uc.Uow.Do(ctx, func(_ *uow.Uow) error {
-
 		accountRepository := uc.getAccountRepository(ctx)
 
 		accountFrom := &entity.Account{
