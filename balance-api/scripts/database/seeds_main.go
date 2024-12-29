@@ -10,7 +10,7 @@ import (
 	"strconv"
 
 	"github.com/iamviniciuss/golang-migrations/src/repository"
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/usecase"
+	usecase "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/use_cases"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/database"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/scripts/database/seeds"

@@ -68,7 +68,7 @@ services:
       test: ["CMD", "curl", "-f", "--request", "POST", "http://localhost:8080/health"]
       interval: 3s
       timeout: 40s
-      retries: 10
+      retries: 3
 
   mysql:
     image: mysql:5.7

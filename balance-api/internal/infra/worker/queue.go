@@ -1,7 +1,7 @@
 package worker
 
 import (
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/usecase"
+	usecase "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/use_cases"
 	queue "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/broker"
 )
 

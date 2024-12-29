@@ -8,9 +8,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/usecase"
-
 	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
+	usecase "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/use_cases"
 )
 
 type KafkaAdapter struct {

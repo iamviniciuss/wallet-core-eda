@@ -3,7 +3,7 @@ package infra
 import (
 	"context"
 
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/usecase"
+	usecase "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/use_cases"
 	errors "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/errors"
 	http "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/http"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"

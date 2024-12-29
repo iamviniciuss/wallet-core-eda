@@ -12,11 +12,11 @@ import (
 	// balance "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/web/balance"
 	// healthcheck "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/web/healthcheck"
 	_ "github.com/go-sql-driver/mysql"
+	usecase "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/use_cases"
 	infra "github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/worker"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/pkg/uow"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/application/usecase"
 	"github.com/iamviniciuss/wallet-core-eda/balance-api/internal/infra/database"
 )
 
